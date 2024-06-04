@@ -47,7 +47,7 @@ const client = new MongoClient(uri, {
         const booksCollection = booksDB.collection("booksCollection");
         const userCollection = userDB.collection("userCollection");
 
-        app.post("/books", async (req, res) => {
+        app.post("/books", verifyToken, async (req, res) => {
             const booksData = req.body;
             const result = await booksCollection.insertOne(booksData);
             res.send(result);
