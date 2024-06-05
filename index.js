@@ -73,7 +73,7 @@ const client = new MongoClient(uri, {
             );
             res.send(result);
           });
-          app.delete("/books/:id",verifyToken,  async (req, res) => {
+          app.delete("/books/:id", async (req, res) => {
             const id = req.params.id;
             const result = await booksCollection.deleteOne({ _id: new ObjectId(id) });
             res.send(result);
