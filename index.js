@@ -6,11 +6,7 @@ const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const cors = require("cors");
 const port = process.env.PORT ;
 
-app.use(cors({
-  origin: 'https://book-wiz.vercel.app/', // Replace with your actual Vercel domain
-  methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Specify allowed methods
-  allowedHeaders: ['Content-Type', 'Authorization'] // Specify allowed headers
-}));
+app.use(cors());
 app.use(express.json());
 
 function createToken(user) {
