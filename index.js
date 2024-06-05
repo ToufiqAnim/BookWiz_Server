@@ -9,7 +9,7 @@ const port = process.env.PORT ;
 app.use(cors());
 app.use(express.json());
 
-function createToken(user) {
+/* function createToken(user) {
     const token = jwt.sign(
       {
         email: user.email,
@@ -29,7 +29,36 @@ function createToken(user) {
     req.user = verify.email;
     next();
   }
-
+ */
+  function createToken(user) {
+    const token = jwt.sign(
+      {
+        email: user.email,
+      },
+      "secret",
+      { expiresIn: "7d" }
+    );
+    return token;
+  }
+  
+  function verifyToken(req, res, next) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).send("Authorization header is missing");
+    }
+  
+    const token = authHeader.split(" ")[1];
+    jwt.verify(token, "secret", (err, decoded) => {
+      if (err) {
+        return res.status(401).send("Invalid token");
+      }
+      if (!decoded?.email) {
+        return res.status(401).send("Token is missing email information");
+      }
+      req.user = decoded.email;
+      next();
+    });
+  }
 
 const uri = process.env.DATABASE_URL;
 const client = new MongoClient(uri, {
