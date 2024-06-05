@@ -47,7 +47,7 @@ const client = new MongoClient(uri, {
         const booksCollection = booksDB.collection("booksCollection");
         const userCollection = userDB.collection("userCollection");
 
-        app.post("/books", verifyToken, async (req, res) => {
+        app.post("/books",  async (req, res) => {
             const booksData = req.body;
             const result = await booksCollection.insertOne(booksData);
             res.send(result);
@@ -64,7 +64,7 @@ const client = new MongoClient(uri, {
             });
             res.send(booksData);
           });
-          app.patch("/books/:id",verifyToken, async (req, res) => {
+          app.patch("/books/:id", async (req, res) => {
             const id = req.params.id;
             const updatedData = req.body;
             const result = await booksCollection.updateOne(
@@ -73,14 +73,14 @@ const client = new MongoClient(uri, {
             );
             res.send(result);
           });
-          app.delete("/books/:id",verifyToken, async (req, res) => {
+          app.delete("/books/:id", async (req, res) => {
             const id = req.params.id;
             const result = await booksCollection.deleteOne({ _id: new ObjectId(id) });
             res.send(result);
           });
 
     // USER
-    app.post("/user",verifyToken, async (req, res) => {
+    app.post("/user", async (req, res) => {
         const user = req.body;
   
         const token = createToken(user);
